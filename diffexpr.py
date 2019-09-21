@@ -1,17 +1,14 @@
+from collections import defaultdict
 import networkx as nx
-from xml.etree import ElementTree
-from os import listdir
 import itertools
 import matplotlib.pyplot as plt
 import json
 import sys
-
 import logging
 
 import KEGGgraph
 
-min_genes = 5 # min number of genes in the pathway to cutoff
-
+min_genes = 5  # min number of genes in the pathway to cutoff
 
 logging.basicConfig(level=logging.INFO,
                     filename='diffexprproject.log', filemode='w',
@@ -42,7 +39,7 @@ for k in kegg_gs_dise:
     kegg_total_genes.update(kegg_pathways[hsa])
 print('...with total {} genes\n'.format(len(kegg_total_genes)))
 
-# Load diff exprenssed genes
+# Load diff expressed genes
 diff_expressed = set()
 with open('gse_16357_001.csv', 'r') as fi:
     for line in fi:
@@ -54,41 +51,51 @@ print(len(diff_expressed), 'diff expressed genes loaded\n')
 intersections = {k: len(kegg_pathways[k] & diff_expressed) for k in kegg_pathways}
 intersections = {k: v for k, v in intersections.items() if v >= min_genes}
 print('{} pathways left after cutoff by min {} genes'.format(len(intersections), min_genes))
-n_top = 5 # print top pathways
-print('Top {}:'.format(n_top))
-for key, value in sorted(intersections.items(), key=lambda x: x[1], reverse=True)[:n_top]:
+n_top_pathways = 5  # print top pathways
+print('Top {}:'.format(n_top_pathways))
+for key, value in sorted(intersections.items(), key=lambda x: x[1], reverse=True)[:n_top_pathways]:
     print('{:>3} : {:>10} : {}'.format(value, key, kegg_pathways_titles[key]))
 print()
 
-print('diff expr genes:')
-mapped_diff_genes = diff_expressed & kegg_total_genes
-print(len(mapped_diff_genes), 'mapped')
-unmapped_diff_genes = diff_expressed - kegg_total_genes
-print(len(unmapped_diff_genes), 'not mapped\n')
-
-supergraph = nx.DiGraph(name='SuperGraph')
+supergraph = nx.DiGraph()
 removed_gene_nodes = set()
 
+print('Looking in graphs separately')
+diff_ascendants = defaultdict(set)
 for pathway in intersections:
-    G = KEGGgraph.getgraph(pathway)
-    #G = KEGGgraph.parseKGML2(xmlpath)
+    G = KEGGgraph.get_graph(pathway)
+    if G is None:
+        continue
 
-    # remove isolated nodes
-    # unG = G.to_undirected()
-    # for subG in nx.connected_components(unG):
-    #     if len(subG) == 1:
-    #         G.remove_nodes_from(subG)
-    #         removed_nodes.update(subG)
-    #
-    # supergraph.update(G)
+    supergraph.update(G)
 
-print(nx.info(supergraph))
-# unG = supergraph.to_undirected()
-# comp = []
-# for subG in nx.connected_components(unG):
-#     comp.append((len(subG), len(subG & diff_expressed)))
-#
-# comp.sort(reverse=True, key=lambda x: x[0])
-# print(comp)
-#
-# print(len(removed_nodes & diff_expressed))
+    # nodes with diff expr genes in this graph
+    diff_expressed_nodes = G.nodes & diff_expressed
+
+    # for each node (from diff expr) making a set of  other diff expt gene nodes reachable from it
+    for node in diff_expressed_nodes:
+        diff_ascendants[node].update(nx.descendants(G, node) & diff_expressed_nodes)
+
+freq = {k: len(v) for k, v in diff_ascendants.items()}
+freq = sorted(freq.items(), key=lambda x: x[1], reverse=True)
+
+n_top_genes = 20
+print('Top {} genes:'.format(n_top_genes))
+for gene, fr in freq[:n_top_genes]:
+    print('{:>4} : {:>7} : {}'.format(fr, gene, supergraph.nodes[gene]['graphicalname']))
+print()
+
+print('Looking in the supergraph')
+diff_ascendants = defaultdict(set)
+diff_expressed_nodes = supergraph.nodes & diff_expressed
+
+# for each node (from diff expr) making a set of  other diff expt gene nodes reachable from it
+for node in diff_expressed_nodes:
+    diff_ascendants[node].update(nx.descendants(supergraph, node) & diff_expressed_nodes)
+
+freq = {k: len(v) for k, v in diff_ascendants.items()}
+freq = sorted(freq.items(), key=lambda x: x[1], reverse=True)
+
+print('Top {} genes:'.format(n_top_genes))
+for gene, fr in freq[:n_top_genes]:
+    print('{:>4} : {:>7} : {}'.format(fr, gene, supergraph.nodes[gene]['graphicalname']))
