@@ -6,7 +6,7 @@ import json
 import sys
 import logging
 
-import KEGGgraph
+from KEGGgraph import KEGGparser
 
 min_genes = 5  # min number of genes in the pathway to cutoff
 
@@ -57,13 +57,15 @@ for key, value in sorted(intersections.items(), key=lambda x: x[1], reverse=True
     print('{:>3} : {:>10} : {}'.format(value, key, kegg_pathways_titles[key]))
 print()
 
+KP = KEGGparser(save_local=True, local_kgml_dir='/home/kirill/sources/R/Dif_expression_profiles_project/kegg_data/')
+
 supergraph = nx.DiGraph()
 removed_gene_nodes = set()
 
 print('Looking in graphs separately')
 diff_ascendants = defaultdict(set)
 for pathway in intersections:
-    G = KEGGgraph.get_graph(pathway)
+    G = KP[pathway]
     if G is None:
         continue
 
