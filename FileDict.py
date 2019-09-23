@@ -14,7 +14,7 @@ class FileDict(dict):
 
     def preload(self, *keys):
         """Preload items with given keys from file to dict"""
-        set_keys = set(keys)
+        set_keys = set(keys) - set(self.keys())
         with open(self.file, 'r') as fi:
             for line in fi:
                 m = self.re_comp.search(line)
