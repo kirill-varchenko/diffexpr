@@ -1,0 +1,58 @@
+[
+    {
+        "label": "PDE",
+        "genes": ["hsa:5142", "hsa:5151"]
+    },
+    {
+        "label": "GNG",
+        "genes": ["hsa:2790", "hsa:55970"]
+    },
+    {
+        "label": "GST",
+        "genes": ["hsa:2950", "hsa:373156"]
+    },
+    {
+        "label": "ACAD",
+        "genes": ["hsa:33", "hsa:34", "hsa:35", "hsa:36", "hsa:37"]
+    },
+    {
+        "label": "CAV",
+        "genes": ["hsa:857", "hsa:858", "hsa:859"]
+    },
+    {
+        "label": "ITG",
+        "genes": ["hsa:3673", "hsa:3675", "hsa:3655", "hsa:3688", "hsa:8515"]
+    },
+    {
+        "label": "LAM",
+        "genes": ["hsa:3910", "hsa:3911"]
+    },
+    {
+        "label": "PPP2",
+        "genes": ["hsa:5516", "hsa:5519"]
+    },
+    {
+        "label": "STAT5",
+        "genes": ["hsa:6776", "hsa:6777"]
+    },
+    {
+        "label": "MTMR",
+        "genes": ["hsa:9107", "hsa:9110"]
+    },
+    {
+        "label": "EIF2AK",
+        "genes": ["hsa:27102", "hsa:5610", "hsa:9451", "hsa:440275"]
+    },
+    {
+        "label": "STIM",
+        "genes": ["hsa:6786", "hsa:57620"]
+    },
+    {
+        "label": "ATP6V0",
+        "genes": ["hsa:23545", "hsa:527", "hsa:9114"]
+    },
+    {
+        "label": "NOTCH",
+        "genes": ["hsa:4853", "hsa:4851"]
+    }
+]

@@ -7,9 +7,12 @@ import logging
 
 
 class KEGGparser:
-    link_to_kgml = 'https://www.kegg.jp/kegg-bin/download?entry={}&format=kgml'
-
     def __init__(self, genes_only=False, save_local=False, local_kgml_dir=''):
+        self.headers = {"Accept": "application/json, text/javascript, */*; q=0.01",
+                   "X-Requested-With": "XMLHttpRequest",
+                   "Referer": "http://www.kegg.jp/",
+                   "Host": "www.kegg.jp"}
+        self.link_to_kgml = "https://www.kegg.jp/kegg-bin/download?entry={}&format=kgml"
         self.genes_only = genes_only
         self.save_local = save_local
         self.local_kgml_dir = local_kgml_dir
@@ -23,7 +26,7 @@ class KEGGparser:
             root = tree.getroot()
         else:
             try:
-                r = requests.get(self.link_to_kgml.format(pathway), timeout=5)
+                r = requests.get(self.link_to_kgml.format(pathway), timeout=5, headers=self.headers)
                 r.raise_for_status()
                 root = ElementTree.fromstring(r.text)
             except requests.exceptions.HTTPError:
@@ -55,10 +58,12 @@ class KEGGparser:
         for entry in root.findall('entry'):
             attr = entry.attrib
             local_id = attr.pop('id')
-            entry_ids[local_id] = list(map(lambda x: x.replace('hsa:', ''), attr['name'].split(' ')))
+            entry_ids[local_id] = attr['name'].split(' ')
 
             if entry.get('type') in ['gene', 'compound', 'ortholog', 'map']:
-                attr['graphicalname'] = entry[0].get('name')
+                attr['label'] = entry[0].get('name')
+                if attr['label'] is None:
+                    attr['label'] = ''
                 for name in entry_ids[local_id]:
                     G.add_node(name, **attr)
                     if entry.get('type') == 'gene':
@@ -82,9 +87,9 @@ class KEGGparser:
             for reagent in reaction:
                 reagents[reagent.tag].extend(entry_ids[reagent.get('id')])
             for substr, gene in itertools.product(reagents['substrate'], entry_ids[gene_id]):
-                G.add_edge(substr, gene, type=reaction.get('type'), xmltype='reaction')
+                G.add_edge(substr, gene, reaction_type=reaction.get('type'), xmltype='reaction')
             for gene, prod in itertools.product(entry_ids[gene_id], reagents['product']):
-                G.add_edge(gene, prod, type=reaction.get('type'), xmltype='reaction')
+                G.add_edge(gene, prod, reaction_type=reaction.get('type'), xmltype='reaction')
 
         if self.genes_only:
             return nx.subgraph(G, genes_nodes)

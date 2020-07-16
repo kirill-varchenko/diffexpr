@@ -1,0 +1,18 @@
+hsa,label,hsa_desc,name
+hsa:81,ACTN4,actinin alpha 4,"ACTN4, ACTININ-4, FSGS, FSGS1; actinin alpha 4"
+hsa:613,BCR,BCR activator of RhoGEF and GTPase,"BCR, ALL, BCR1, CML, D22S11, D22S662, PHL; BCR activator of RhoGEF and GTPase"
+hsa:868,CBLB,Cbl proto-oncogene B,"CBLB, Cbl-b, Nbla00127, RNF56; Cbl proto-oncogene B"
+hsa:1512,CTSH,cathepsin H,"CTSH, ACC-4, ACC-5, ACC4, ACC5, CPSB; cathepsin H"
+hsa:1739,DLG1,discs large MAGUK scaffold protein 1,"DLG1, DLGH1, SAP-97, SAP97, hdlg; discs large MAGUK scaffold protein 1"
+hsa:2113,ETS1,"ETS proto-oncogene 1, transcription factor","ETS1, ETS-1, EWSR2, c-ets-1, p54; ETS proto-oncogene 1, transcription factor"
+hsa:5525,PPP2R5A,protein phosphatase 2 regulatory subunit B'alpha,"PPP2R5A, B56A, B56alpha, PR61A; protein phosphatase 2 regulatory subunit B'alpha"
+hsa:5788,PTPRC,protein tyrosine phosphatase receptor type C,"PTPRC, B220, CD45, CD45R, GP180, L-CA, LCA, LY5, T200; protein tyrosine phosphatase receptor type C"
+hsa:6195,RPS6KA1,ribosomal protein S6 kinase A1,"RPS6KA1, HU-1, MAPKAPK1A, RSK, RSK1, p90Rsk; ribosomal protein S6 kinase A1"
+hsa:6558,SLC12A2,solute carrier family 12 member 2,"SLC12A2, BSC, BSC2, NKCC1, PPP1R141; solute carrier family 12 member 2"
+hsa:9730,DCAF1,DDB1 and CUL4 associated factor 1,"DCAF1, RIP, VPRBP; DDB1 and CUL4 associated factor 1"
+hsa:10616,RBCK1,RANBP2-type and C3HC4-type zinc finger containing 1,"RBCK1, C20orf18, HOIL-1, HOIL1, PBMEI, PGBM1, RBCK2, RNF54, UBCE7IP3, XAP3, XAP4, ZRANB4; RANBP2-type and C3HC4-type zinc finger containing 1"
+hsa:55437,STRADB,STE20 related adaptor beta,"STRADB, ALS2CR2, CALS-21, ILPIP, ILPIPA, PAPK, PRO1038; STE20 related adaptor beta"
+hsa:64332,NFKBIZ,NFKB inhibitor zeta,"NFKBIZ, IKBZ, INAP, MAIL; NFKB inhibitor zeta"
+hsa:64750,SMURF2,SMAD specific E3 ubiquitin protein ligase 2,SMURF2; SMAD specific E3 ubiquitin protein ligase 2
+hsa:143686,SESN3,sestrin 3,"SESN3, SEST3; sestrin 3"
+K18436,PDE7,PDE7,"PDE7; high affinity cAMP-specific 3',5'-cyclic phosphodiesterase 7"

@@ -1,2 +1,2 @@
 # diffexpr
-Python version
+check config.json settings first

@@ -1,5 +1,6 @@
 {
     "min diff expr genes in pathways": 5,
     "save KGML local": true,
-    "local KGML dir": "/home/kirill/sources/R/Dif_expression_profiles_project/kegg_data/"
+    "local KGML dir": "/home/kirill/sources/R/Dif_expression_profiles_project/kegg_data/",
+    "genes only": false
 }
